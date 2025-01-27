@@ -1,0 +1,24 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Hi", "Hello", "Hey", "Hi there"],
+      "responses": ["Hello! How can I help you today?", "Hi there! What can I assist you with?"]
+    },
+    {
+      "tag": "hours",
+      "patterns": ["What are your working hours?", "When are you open?", "Opening hours?"],
+      "responses": ["We are open from 9 AM to 6 PM, Monday to Friday."]
+    },
+    {
+      "tag": "services",
+      "patterns": ["What services do you offer?", "Tell me about your services", "What do you provide?"],
+      "responses": ["We provide XYZ services. Feel free to ask for details about specific ones!"]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you", "Goodbye"],
+      "responses": ["Goodbye! Have a great day!", "See you soon!"]
+    }
+  ]
+}
