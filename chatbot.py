@@ -8,11 +8,16 @@ def load_intents(file_path="intents.json"):
 
 # Find a response based on user input
 def chatbot_response(user_input, intents):
+    user_input = user_input.lower()  # Convert input to lowercase for consistency
+
     for intent in intents["intents"]:
         for pattern in intent["patterns"]:
-            if pattern.lower() in user_input.lower():
+            # Check if the user's input matches any pattern exactly or contains the pattern as a keyword
+            if pattern.lower() in user_input:
                 return random.choice(intent["responses"])
-    return "I'm sorry, I didn't understand that. Can you rephrase?"
+
+    return "I'm sorry, I didn't quite understand that. Could you rephrase?"
+
 
 # Main chatbot loop
 def main():
