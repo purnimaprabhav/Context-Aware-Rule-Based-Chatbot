@@ -1,37 +1,66 @@
 import json
 import random
+import nltk
+from nltk.stem import WordNetLemmatizer
 
-# Load intents from the JSON file
-def load_intents(file_path="intents.json"):
-    with open(file_path, "r") as file:
-        return json.load(file)
+nltk.download('punkt')
+nltk.download('wordnet')
 
-# Find a response based on user input
-def chatbot_response(user_input, intents):
-    user_input = user_input.lower()  # Convert input to lowercase for consistency
+lemmatizer = WordNetLemmatizer()
 
+# Load intents
+with open("intents.json", "r") as file:
+    intents = json.load(file)
+
+# Dictionary to store conversation state
+context = {}
+
+def preprocess_text(text):
+    """Tokenize and lemmatize the input text"""
+    tokens = nltk.word_tokenize(text.lower())
+    return [lemmatizer.lemmatize(word) for word in tokens]
+
+def get_response(user_input, user_id="default_user"):
+    """Find the best response based on user input and maintain chat context"""
+    global context
+    processed_input = preprocess_text(user_input)
+
+    # If context exists, use it to provide a better response
+    if user_id in context and context[user_id] is not None:
+        if context[user_id] == "waiting_for_order_number":
+            context[user_id] = None  # Reset context after use
+            return f"Thanks! I'm checking order {user_input} now."
+
+        if context[user_id] == "waiting_for_reservation_details":
+            context[user_id] = None
+            return f"Got it! Your table is reserved for {user_input}."
+
+    # Check for matching intent
     for intent in intents["intents"]:
         for pattern in intent["patterns"]:
-            # Check if the user's input matches any pattern exactly or contains the pattern as a keyword
-            if pattern.lower() in user_input:
-                return random.choice(intent["responses"])
+            tokenized_pattern = preprocess_text(pattern)
 
-    return "I'm sorry, I didn't quite understand that. Could you rephrase?"
+            if set(processed_input).intersection(set(tokenized_pattern)):
+                response = random.choice(intent["responses"])
 
+                # If the response requires user input, set context
+                if intent["tag"] == "order_status":
+                    context[user_id] = "waiting_for_order_number"
+                    return response  # Example: "Please provide your order number."
+
+                if intent["tag"] == "restaurant_reservation":
+                    context[user_id] = "waiting_for_reservation_details"
+                    return response  # Example: "How many people and what time?"
+
+                return response
+
+    return "I'm not sure I understand. Can you rephrase?"
 
 # Main chatbot loop
-def main():
-    print("Chatbot: Hello! I am your assistant. Type 'quit' to exit.")
-    intents = load_intents()  # Load the intents
-
-    while True:
-        user_input = input("You: ")
-        if user_input.lower() == "quit":
-            print("Chatbot: Goodbye!")
-            break
-
-        response = chatbot_response(user_input, intents)
-        print(f"Chatbot: {response}")
-
-if __name__ == "__main__":
-    main()
+print("Chatbot: Hello! Type 'quit' to exit.")
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == "quit":
+        break
+    response = get_response(user_input, user_id="user1")  # Simulating a unique user
+    print("Chatbot:", response)

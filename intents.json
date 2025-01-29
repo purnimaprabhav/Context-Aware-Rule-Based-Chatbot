@@ -1,39 +1,24 @@
 {
-  "intents": [
-    {
-      "tag": "greeting",
-      "patterns": ["Hi", "Hello", "Hey", "Hi there"],
-      "responses": ["Hello! How can I help you today?", "Hi there! What can I assist you with?"]
-    },
-    {
-      "tag": "hours",
-      "patterns": ["What are your working hours?", "When are you open?", "Opening hours?", "hours"],
-      "responses": ["We are open from 9 AM to 6 PM, Monday to Friday."]
-    },
-    {
-      "tag": "services",
-      "patterns": ["What services do you offer?", "Tell me about your services", "What do you provide?", "services"],
-      "responses": ["We provide XYZ services. Feel free to ask for details about specific ones!"]
-    },
-    {
-      "tag": "contact",
-      "patterns": ["How can I contact you?", "What is your phone number?", "Contact details?", "contact"],
-      "responses": ["You can reach us at 123-456-7890 or email us at support@example.com."]
-    },
-    {
-      "tag": "location",
-      "patterns": ["Where are you located?", "What is your address?", "Location?", "location"],
-      "responses": ["We are located at 123 Main Street, YourCity, YourCountry."]
-    },
-    {
-      "tag": "pricing",
-      "patterns": ["What are your prices?", "How much does it cost?", "Pricing information?", "pricing"],
-      "responses": ["Our prices vary depending on the service. Please visit our pricing page for details."]
-    },
-    {
-      "tag": "thankyou",
-      "patterns": ["Thanks", "Thank you", "Thanks a lot"],
-      "responses": ["You're welcome! Let me know if there's anything else I can help you with."]
-    }
-  ]
+    "intents": [
+        {
+            "tag": "greeting",
+            "patterns": ["Hello", "Hi", "Hey"],
+            "responses": ["Hello! How can I assist you today?", "Hi there! What can I do for you?"]
+        },
+        {
+            "tag": "goodbye",
+            "patterns": ["Bye", "Goodbye"],
+            "responses": ["Goodbye! Have a great day!", "See you soon!"]
+        },
+        {
+            "tag": "order_status",
+            "patterns": ["Where is my order?", "Order status"],
+            "responses": ["Can you please provide your order number?"]
+        },
+        {
+            "tag": "restaurant_reservation",
+            "patterns": ["I want to book a table", "Reserve a table"],
+            "responses": ["Sure! How many people and what time?"]
+        }
+    ]
 }
